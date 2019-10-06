@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 from openpyxl import Workbook
 from openpyxl import load_workbook
 
+SPREADSHEET_NAME = 'records.xlsx'
+
 
 if __name__ == '__main__':
     # Fetching currencies
@@ -59,18 +61,16 @@ if __name__ == '__main__':
 
     # Writing the scraped data into a spreadsheet
 
-    time_and_date = str(datetime.datetime.now()).split(' ')
-    date = time_and_date[0]
-    time = time_and_date[1].split('.')[0]
-
     try:    # Checking if the spreadsheet exists, if so, append the scraped data to it
-        wb = load_workbook('records.xlsx')
+        wb = load_workbook(SPREADSHEET_NAME)
         ws = wb.active
-        ws.append([date, time, dollar_price, euro_price, dirham_price, yuan_price, crude_price, brent_price, opec_price, mazut_price, gold_dollars])
-        wb.save('records.xlsx')
+        ws.append([datetime.datetime.now(), dollar_price, euro_price, dirham_price, yuan_price, crude_price, brent_price, opec_price, mazut_price, gold_dollars])
+        wb.save(SPREADSHEET_NAME)
+        print('Data appended to ' + SPREADSHEET_NAME)
     except FileNotFoundError:   # Spreadsheet does not exist in the root folder, creating a new one and appending to it
         wb = Workbook()
         ws = wb.active
-        ws.append(['Date', 'Time', 'Dollar Price', 'Euro Price', 'Dirham Price', 'Yuan Price', 'Crude Price', 'Brent Price', 'Opec Price', 'Mazut Price', 'Global Gold Price ($)'])
-        ws.append([date, time, dollar_price, euro_price, dirham_price, yuan_price, crude_price, brent_price, opec_price, mazut_price, gold_dollars])
-        wb.save('records.xlsx')
+        ws.append(['Datetime', 'Dollar Price', 'Euro Price', 'Dirham Price', 'Yuan Price', 'Crude Price', 'Brent Price', 'Opec Price', 'Mazut Price', 'Global Gold Price ($)'])
+        ws.append([datetime.datetime.now(), dollar_price, euro_price, dirham_price, yuan_price, crude_price, brent_price, opec_price, mazut_price, gold_dollars])
+        wb.save(SPREADSHEET_NAME)
+        print('Data written in ' + SPREADSHEET_NAME)
