@@ -58,15 +58,20 @@ if __name__ == '__main__':
         '#main > div:nth-child(4) > div > div > div:nth-child(1) > table > tbody > tr:nth-child(1) > td:nth-child(2)'
     ).text
 
-
     # Writing the scraped data into a spreadsheet
+
+    scraped_data = [datetime.datetime.now(), dollar_price, euro_price, dirham_price, yuan_price, crude_price, brent_price, opec_price, mazut_price, gold_dollars]
 
     try:    # Checking if the spreadsheet exists, if so, append the scraped data to it
         wb = load_workbook(SPREADSHEET_NAME)
         ws = wb.active
-        ws.append([datetime.datetime.now(), dollar_price, euro_price, dirham_price, yuan_price, crude_price, brent_price, opec_price, mazut_price, gold_dollars])
+
+        ws.insert_rows(2)
+        for i in range(len(scraped_data)):
+            ws.cell(row=2, column=i+1).value = scraped_data[i]
+
         wb.save(SPREADSHEET_NAME)
-        print('Data appended to ' + SPREADSHEET_NAME)
+        print('Data added to ' + SPREADSHEET_NAME)
     except FileNotFoundError:   # Spreadsheet does not exist in the root folder, creating a new one and appending to it
         wb = Workbook()
         ws = wb.active
