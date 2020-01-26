@@ -1,5 +1,6 @@
 import requests
 import datetime
+from datetime import datetime as dt
 from bs4 import BeautifulSoup
 from openpyxl import Workbook
 from openpyxl import load_workbook
@@ -31,7 +32,7 @@ if __name__ == '__main__':
     gold_dollars = fetch_price_from('https://www.tgju.org/chart/ons')
 
     # Writing the scraped data into a spreadsheet
-    scraped_data = [datetime.datetime.now().date(), dollar_price, euro_price, dirham_price, yuan_price, crude_price, brent_price, opec_price, mazut_price, gold_dollars]
+    scraped_data = [dt.strftime(datetime.datetime.now().date(), '%Y/%m/%d'), dollar_price, euro_price, dirham_price, yuan_price, crude_price, brent_price, opec_price, mazut_price, gold_dollars]
 
     # Checking if the spreadsheet exists, if so, append the scraped data to it
     try:
